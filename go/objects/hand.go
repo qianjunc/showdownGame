@@ -11,5 +11,6 @@ func NewHand() Hand {
 }
 
 func (hand *Hand) Draw(deck Deck) {
-
+	card := deck.Draw()
+	hand.Cards = append(hand.Cards, card)
 }

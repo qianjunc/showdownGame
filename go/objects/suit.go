@@ -3,21 +3,29 @@ package objects
 type SuitValue string
 
 const (
-	Two   SuitValue = "2"
-	Three SuitValue = "3"
-	Four  SuitValue = "4"
-	Five  SuitValue = "5"
-	Six   SuitValue = "6"
-	Seven SuitValue = "7"
-	Eight SuitValue = "8"
-	Nine  SuitValue = "9"
-	Ten   SuitValue = "10"
-	J     SuitValue = "J"
-	Q     SuitValue = "Q"
-	K     SuitValue = "K"
-	A     SuitValue = "A"
+	Club    SuitValue = "Club"
+	Diamond SuitValue = "Diamond"
+	Heart   SuitValue = "Heart"
+	Spade   SuitValue = "Spade"
 )
 
 type Suit struct {
 	Value SuitValue
+}
+
+func NewSuit(value SuitValue) Suit {
+	suit := Suit{}
+	suit.Value = value
+	return suit
+}
+
+func (suit *Suit) Compare(anotherSuit *Suit) string {
+	if anotherSuit.Value == suit.Value {
+		return "draw"
+	}
+	if suit.Value == Club || (suit.Value == Diamond && anotherSuit.Value != Club) ||
+		(suit.Value == Heart && anotherSuit.Value == Spade) {
+		return "win"
+	}
+	return "lose"
 }
