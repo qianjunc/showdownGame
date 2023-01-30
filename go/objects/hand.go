@@ -1,9 +1,9 @@
 package objects
 
 type Hand struct {
-	cards []Card
+	Cards []Card
 }
 
-func (hand *Hand) draw(deck Deck) {
+func (hand *Hand) Draw(deck Deck) {
 
 }
