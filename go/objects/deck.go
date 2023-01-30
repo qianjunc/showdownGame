@@ -9,7 +9,7 @@ type Deck struct {
 	Cards []Card
 }
 
-func NewDeck() Deck {
+func NewDeck() *Deck {
 	deck := Deck{}
 	suits := []SuitValue{Spade, Heart, Club, Diamond}
 	ranks := []RankValue{Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, J, Q, K, A}
@@ -18,7 +18,7 @@ func NewDeck() Deck {
 			deck.Cards = append(deck.Cards, NewCard(rank, suit))
 		}
 	}
-	return deck
+	return &deck
 }
 
 func (deck *Deck) Shuffle() {
