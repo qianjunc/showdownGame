@@ -28,7 +28,7 @@ func NewRank(value RankValue) Rank {
 	return rank
 }
 
-func (rank *Rank) Compare(anotherRank *Rank) string {
+func (rank *Rank) Compare(anotherRank Rank) string {
 	if rank.Value == anotherRank.Value {
 		return "draw"
 	}

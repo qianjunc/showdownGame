@@ -21,7 +21,7 @@ type Player struct {
 }
 
 func NewPlayer() *Player {
-	playerType := inputFromTerminal("What type of player is this? AI or Human:")
+	playerType := inputFromTerminal("What type of player is this? AI or Human")
 	player := Player{}
 	player.Points = 0
 	hand := NewHand()
@@ -59,16 +59,16 @@ func (player *Player) NameMyself() {
 }
 
 // TODO: fix this bug
-func (player *Player) Decide() string {
+func (player *Player) ExchangeOrNot() bool {
 	if player.ExchangeRounds != nil {
 		if player.ExchangeRounds.ExchangeRound >= 3 {
-			player.ExchangeHand(player.ExchangeRounds.Player2)
+			player.exchangeHand(player.ExchangeRounds.Player2)
 		}
 
 		if player.ExchangeRounds.ExchangeRound < 3 {
 			player.ExchangeRounds.IncreaseRound()
 		}
-		return "show"
+		return false
 	}
 
 	decision := ""
@@ -77,10 +77,13 @@ func (player *Player) Decide() string {
 		rand.Seed(time.Now().UnixNano())
 		decision = choices[rand.Intn(len(choices))]
 	} else {
-		decision = inputFromTerminal("Show or exchange: ")
+		decision = inputFromTerminal("Do you exchange this round")
 	}
 
-	return decision
+	if decision == "yes" {
+		return true
+	}
+	return false
 }
 
 func (player *Player) Show() Card {
@@ -97,13 +100,13 @@ func (player *Player) Show() Card {
 }
 
 func (player *Player) Exchange(anotherPlayer *Player) *Exchange {
-	player.ExchangeHand(anotherPlayer)
+	player.exchangeHand(anotherPlayer)
 	newExchange := NewExchange(player, anotherPlayer)
 	player.ExchangeRounds = newExchange
 	return newExchange
 }
 
-func (player *Player) ExchangeHand(anotherPlayer *Player) {
+func (player *Player) exchangeHand(anotherPlayer *Player) {
 	currentHand := player.Hand
 	player.Hand = anotherPlayer.GetHand()
 	anotherPlayer.SetHand(currentHand)

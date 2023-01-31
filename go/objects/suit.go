@@ -19,7 +19,7 @@ func NewSuit(value SuitValue) Suit {
 	return suit
 }
 
-func (suit *Suit) Compare(anotherSuit *Suit) string {
+func (suit *Suit) Compare(anotherSuit Suit) string {
 	if anotherSuit.Value == suit.Value {
 		return "draw"
 	}
