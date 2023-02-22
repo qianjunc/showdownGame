@@ -1,13 +1,16 @@
 package objects
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"strconv"
+	"strings"
 )
 
 type Game struct {
 	Deck    *Deck
-	Players []*Player
+	Players []Player
 }
 
 func NewGame() *Game {
@@ -22,18 +25,18 @@ func NewGame() *Game {
 }
 
 func (game *Game) Start() {
-	// shuffle deck
-	game.Deck.Shuffle()
-
 	// Name themselves
 	for _, player := range game.Players {
 		player.NameMyself()
 	}
 
+	// shuffle deck
+	game.Deck.Shuffle()
+
 	// draw card
 	for i := 0; i < 13; i++ {
 		for _, player := range game.Players {
-			player.Hand.Draw(game.Deck)
+			player.Draw(game.Deck)
 		}
 	}
 
@@ -46,15 +49,15 @@ func (game *Game) Start() {
 	// winner
 	winner := 0
 	for i := 1; i < 4; i++ {
-		if game.Players[i].Points > game.Players[winner].Points {
+		if game.Players[i].GetPoints() > game.Players[winner].GetPoints() {
 			winner = i
 		}
 	}
 
-	fmt.Printf("The winner is p%d %s\n", winner+1, game.Players[winner].Name)
+	fmt.Printf("The winner is p%d %s\n", winner+1, game.Players[winner].GetName())
 }
 
-func (game *Game) findOneRoundWinner() *Player {
+func (game *Game) findOneRoundWinner() Player {
 	roundCards := []Card{}
 	for i, player := range game.Players {
 		fmt.Printf("P%d\n", i+1)
@@ -75,4 +78,19 @@ func (game *Game) findOneRoundWinner() *Player {
 		}
 	}
 	return game.Players[winner]
+}
+
+func inputFromTerminal(question string) string {
+	fmt.Printf("%s: ", question)
+	reader := bufio.NewReader(os.Stdin)
+	// ReadString will block until the delimiter is entered
+	input, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("An error occured while reading input. Please try again", err)
+		return ""
+	}
+
+	// remove the delimeter from the string
+	input = strings.TrimSuffix(input, "\n")
+	return input
 }

@@ -2,11 +2,11 @@ package objects
 
 type Exchange struct {
 	ExchangeRound int
-	Player1       *Player
-	Player2       *Player
+	Player1       Player
+	Player2       Player
 }
 
-func NewExchange(p1, p2 *Player) *Exchange {
+func NewExchange(p1, p2 Player) *Exchange {
 	exchange := Exchange{}
 	exchange.ExchangeRound = 1
 	exchange.Player1 = p1

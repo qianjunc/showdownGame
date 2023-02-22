@@ -13,15 +13,15 @@ func NewCard(rank RankValue, suit SuitValue) Card {
 }
 
 func (card *Card) Win(anotherCard Card) bool {
-	suitResult := card.Suit.Compare(anotherCard.Suit)
-	if suitResult == "win" {
+	rankResult := card.Rank.Compare(anotherCard.Rank)
+	if rankResult == "win" {
 		return true
 	}
-	if suitResult == "lose" {
+	if rankResult == "lose" {
 		return false
 	}
 
-	if card.Rank.Compare(anotherCard.Rank) == "win" {
+	if card.Suit.Compare(anotherCard.Suit) == "win" {
 		return true
 	}
 	return false
